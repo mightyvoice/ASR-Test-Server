@@ -1,0 +1,175 @@
+<resources>
+    <string name="app_name">ASRTTStest</string>
+
+    <string name="Echo_Cancelation">Echo Cancelation</string>
+    <string name="Elvis_Recognizer">Elvis Recognizer</string>
+    <string name="Vocon_Recognizer">Vocon Recognizer</string>
+    <string name="Vocon_Dynamic_Words">Vocon Dynamic Words</string>
+    <string name="Fuzzy_Match">Fuzzy Match</string>
+    <string name="Cloud_Recognizer">Cloud Recognizer</string>
+    <string name="Cloud_Data_Uploader">Cloud Data Uploader</string>
+    <string name="Constrained_Cloud_Recognizer">Constrained Cloud Recognizer</string>
+    <string name="Sk_Cloud_Recognizer">SK Cloud Recognizer</string>
+    <string name="Cloud_Vocalizer">Cloud Vocalizer</string>
+    <string name="Sk_Cloud_Vocalizer">SK Cloud Vocalizer</string>
+    <string name="Sk_Vocalizer">SK Vocalizer</string>
+    <string name="Elvis_Hybrid_Recognizer">Elvis Hybrid Recognizer</string>
+    <string name="Vocon_Hybrid_Recognizer">Vocon Hybrid Recognizer</string>
+    <string name="Custom_Vocon_Hybrid_Recognizer">Custom Vocon Hybrid Recognizer</string>
+    <string name="Nlu_Cloud_Recognizer">NLU Cloud Recognizer</string>
+    <string name="Initialize_Recognition">Initialize Recognition</string>
+    <string name="Start_Recognition">Start Recog</string>
+    <string name="Stop_Recognition">Stop Recog</string>
+    <string name="Start_DataUpload">Start Data Upload</string>
+    <string name="Clear_DataUpload">Clear Data Upload</string>
+    <string name="Recognition_Results_Hint">Recognition result(s) will appear here.</string>
+
+    <string name="Vocalizer">Vocalizer</string>
+    <string name="Input_Text_Hint">Please fill with the text to be spoken.</string>
+    <string name="Speak">Speak</string>
+    <string name="Cancel_Tts">Cancel TTS</string>
+    <string name="Stop_Audio">Stop Audio</string>
+    <string name="Suspend">Suspend</string>
+    <string name="Resume">Resume</string>
+    <string name="Reload">Reload</string>
+    <string name="Vocalizer_Language_Prompt">Please select a language.</string>
+    <string name="Vocalizer_Voice_Prompt">Please select a voice.</string>
+    <string name="Vocalizer_Speed_Caption">Speed</string>
+    <string name="Vocalizer_Volume_Caption">Volume</string>
+
+    <string name="Impersonators">Impersonators</string>
+    <string name="Start_Recording">Start Recording</string>
+    <string name="Stop_Recording">Stop Recording</string>
+    <string name="Start_NMAS">Start NMAS</string>
+    <string name="Stop_NMAS">Stop NMAS</string>
+
+    <string name="Language">Language</string>
+    <string name="Create">Create</string>
+    <string name="Destroy">Destroy</string>
+    <string name="Save">Save</string>
+    <string name="Initialize">Init</string>
+    <string name="LoadState">Load State</string>
+    <string name="LoadGrammar">Load Grammar</string>
+    <string name="LoadStateAndGrammar">Load Both</string>
+    <string name="ClearGrammar">Clear Grammar</string>
+    <string name="WakeupMode">Wakeup Mode</string>
+    <string name="CheckWakeupPhrases">Check Wakeup Phrases</string>
+    <string name="Play">Play</string>
+    <string name="Stop_Playing">Stop Playing</string>
+    <string name="Record">Record</string>
+    <string name="Audio">Audio</string>
+    <string name="UseCodec">Use Codec</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Grammar">Grammar</string>
+    <string name="ResultMode">Result Mode</string>
+    <string name="DynamicWord_Hint">HBO,CTV...</string>
+    <string name="Add">Add</string>
+    <string name="Remove">Remove</string>
+    <string name="Start_Stereo_Record">Start Stereo Recording</string>
+    <string name="Play_Channel_1">Play Channel 1</string>
+    <string name="Play_Channel_2">Play Channel 2</string>
+    <string name="UseSpeex">Use Speex</string>
+    <string name="UseEarcons">Use Earcons</string>
+
+    <string name="buffMnger">Buffer Manager</string>
+    <string name="textEditMode">Text Mode</string>
+    <string name="tokenEditMode">Token Mode</string>
+    <string name="getAlternatives">Alternatives</string>
+    <string name="deleteTokens">Delete</string>
+
+    <string name="startTts">Start TTS</string>
+    <string name="stopTts">Stop TTS</string>
+    <string name="startRecording">Start Recording</string>
+    <string name="stopRecording">Stop Recording</string>
+    <string name="playRawAudio">Play Raw Audio</string>
+    <string name="stopRawAudio">Stop Raw Audio</string>
+    <string name="playCanceledAudio">Play Canceled Audio</string>
+    <string name="stopCanceledAudio">Stop Canceled Audio</string>
+    <string name="writeToFiles">Write to Files</string>
+
+    <string name="SSE">SSE</string>
+
+    <string name="Barge_In">Barge-In</string>
+    <string name="Start_Tts_And_Recog">Start TTS and Recog</string>
+    <string name="Play_Recorded">Play Recorded Audio</string>
+    <string name="Play_Processed">Play Processed Audio</string>
+
+    <string name="Bluetooth">Bluetooth</string>
+    <string name="connectAudio">Connect Audio</string>
+    <string name="disconnectAudio">Disconnect Audio</string>
+    <string name="audioStateColon">Audio State: </string>
+    <string name="audioActivity">Audio Activity</string>
+    <string name="initialize">Initialize</string>
+    <string name="release">Release</string>
+    <string name="status">Status: </string>
+    <string name="updateStatus">Update status</string>
+
+    <string name="Voice_ID">Voice ID</string>
+    <string name="Identification_Results_Hint">Identification result(s) will appear here.</string>
+    <string name="Start_Enrollment">Enrollment</string>
+    <string name="Start_Adaption">Adaption</string>
+    <string name="Start_Identification">Identification</string>
+    <string name="Start_MultiIdent">Multi-Speakers</string>
+    <string name="Start_Detection">Language Detection</string>
+    <string name="Stop">Stop</string>
+    <string name="Group_Speaker">Group/Speaker</string>
+    <string name="Group_Speaker_Hint">Input: GroupId/SpeakerId</string>
+    <string name="Voice_Tag">Voice Tag</string>
+    <string name="Voice_Tag_Hint">Input: Voice Tag</string>
+    <string name="Create_Group">Create Group</string>
+    <string name="Delete_Group">Delete Group</string>
+    <string name="Save_Group">Save Group</string>
+
+    <string name="edr">Embedded Dragon Recognizer</string>
+    <string name="Load_Vocabulary">Load vocabulary</string>
+    <string name="Clear_Vocabulary">Clear vocabulary</string>
+    <string name="Load_Contacts">Load contacts</string>
+    <string name="Clear_Contacts">Clear contacts</string>
+    <string name="Reset_Speaker_Profile">Reset profile</string>
+
+    <string-array name="grammars">
+        <item>main_with_music</item>
+        <item>main_with_local_call</item>
+        <item>main_with_seamless_wakeup</item>
+        <item>main_screen</item>
+        <item>call_screen</item>
+        <item>send_screen</item>
+        <item>message_screen</item>
+        <item>search_screen</item>
+        <item>play_only</item>
+    </string-array>
+
+    <string-array name="partialresultmodes">
+        <item>No Partial Results</item>
+        <item>Utterance Detection Default</item>
+        <item>Utterance Detection Very Aggressive</item>
+        <item>Utterance Detection Aggressive</item>
+        <item>Utterance Detection Average</item>
+        <item>Utterance Detection Conservative</item>
+        <item>Streaming Results</item>
+    </string-array>
+
+
+    <!--From Speech Recognition Activity sample code-->
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="btSpeak">Speak</string>
+    <string name="tvTextMatches">Text Matches</string>
+    <string name="sNoOfMatches">No of Matches</string>
+    <string name="etSearchHint">Speech hint here</string>
+    <string-array name="saNoOfMatches">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <!--From Speech Recognition Activity sample code-->
+
+</resources>

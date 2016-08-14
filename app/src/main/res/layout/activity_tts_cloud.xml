@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vocalizer"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <EditText
+        android:id="@+id/editText"
+        android:scrollbars = "vertical"
+        android:hint="@string/Input_Text_Hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:lines="2" android:gravity="top|left"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <Spinner
+            android:id="@+id/languageSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:prompt="@string/Vocalizer_Language_Prompt" />
+        <Spinner
+            android:id="@+id/voiceSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:prompt="@string/Vocalizer_Voice_Prompt" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/speakButton"
+            android:text="@string/Speak"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/cancelTTSButton"
+            android:text="@string/Cancel_Tts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/stopAudioButton"
+            android:text="@string/Stop_Audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/speedLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/speedTextView"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/Vocalizer_Speed_Caption" />
+        <TextView
+            android:id="@+id/speedValView"
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="100"/>
+        <SeekBar
+            android:id="@+id/speedSeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/speedTextView"
+            android:layout_toLeftOf="@id/speedValView"
+            android:layout_centerVertical="true"
+            android:max="400"
+            android:progress="100" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/volumeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/volumeTextView"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/Vocalizer_Volume_Caption" />
+        <TextView
+            android:id="@+id/volumeValView"
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="80"/>
+        <SeekBar
+            android:id="@+id/volumeSeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/volumeTextView"
+            android:layout_toLeftOf="@id/volumeValView"
+            android:layout_centerVertical="true"
+            android:max="100"
+            android:progress="80" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/speexCheckBox"
+        android:text="@string/UseSpeex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"/>
+
+    <CheckBox
+        android:id="@+id/earconsCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/UseEarcons" />
+
+</LinearLayout>
