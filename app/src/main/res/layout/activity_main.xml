@@ -4,9 +4,24 @@
             android:layout_width="fill_parent"
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/selectUserNameLabel"
+                android:text="Please Select Your Name"
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userNameSpinner"
+                android:spinnerMode="dialog" />
+
             <Button
-                android:id="@+id/cloudRecognizerButton"
-                android:text="@string/Cloud_Recognizer"
+                android:id="@+id/userNameConfirmButton"
+                android:text="Confirm"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>

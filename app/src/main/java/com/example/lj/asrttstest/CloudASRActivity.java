@@ -6,11 +6,9 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,53 +19,19 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.widget.TextView;
 import android.widget.Toast;
-/////////test git
-import com.example.lj.asrttstest.info.AppInfo;
-import com.nuance.dragon.toolkit.audio.AudioChunk;
-import com.nuance.dragon.toolkit.audio.AudioType;
-import com.nuance.dragon.toolkit.audio.SpeechDetectionListener;
-import com.nuance.dragon.toolkit.audio.pipes.ConverterPipe;
-import com.nuance.dragon.toolkit.audio.pipes.EndPointerPipe;
-import com.nuance.dragon.toolkit.audio.pipes.OpusEncoderPipe;
-import com.nuance.dragon.toolkit.audio.pipes.SpeexEncoderPipe;
-import com.nuance.dragon.toolkit.audio.sources.BurstFileRecorderSource;
-import com.nuance.dragon.toolkit.audio.sources.MicrophoneRecorderSource;
-import com.nuance.dragon.toolkit.audio.sources.RecorderSource;
-import com.nuance.dragon.toolkit.audio.sources.StreamingFileRecorderSource;
-import com.nuance.dragon.toolkit.calllog.CalllogManager;
-import com.nuance.dragon.toolkit.calllog.CalllogManager.CalllogDataListener;
-import com.nuance.dragon.toolkit.calllog.CalllogSender;
-import com.nuance.dragon.toolkit.calllog.CalllogSender.SenderListener;
-import com.nuance.dragon.toolkit.calllog.SessionEvent;
-import com.nuance.dragon.toolkit.calllog.SessionEventBuilder;
-import com.nuance.dragon.toolkit.cloudservices.CloudConfig;
-import com.nuance.dragon.toolkit.cloudservices.CloudServices;
-import com.nuance.dragon.toolkit.cloudservices.DictionaryParam;
-import com.nuance.dragon.toolkit.cloudservices.recognizer.CloudRecognitionError;
-import com.nuance.dragon.toolkit.cloudservices.recognizer.CloudRecognitionResult;
-import com.nuance.dragon.toolkit.cloudservices.recognizer.CloudRecognizer;
-import com.nuance.dragon.toolkit.cloudservices.recognizer.RecogSpec;
-import com.nuance.dragon.toolkit.data.Data;
-import com.nuance.dragon.toolkit.util.Logger;
-import com.nuance.dragon.toolkit.vocon.ParamSpecs;
 
 
 public class CloudASRActivity extends AppCompatActivity
 {
     private TextView resultTextView;
-
-    private int curAudioFileID = 0;
 
     private MediaRecorder googleRecorder;
     private File googleAudioFile;
@@ -76,7 +40,7 @@ public class CloudASRActivity extends AppCompatActivity
     private String tmpAudioName = "xxx";
     private String msgFromClient = "";
 
-    private final int serverPort = 8888;
+    private final int serverPort = 13458;
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSocketList = new ArrayList<Socket>();
     Handler clientMessgageHandler;
@@ -107,7 +71,7 @@ public class CloudASRActivity extends AppCompatActivity
                 super.handleMessage(msg);
                 if(msg.what == 1){
                     stopGoogleRecording();
-                    playFile(googleAudioFile);
+//                    playFile(googleAudioFile);
                 }
             }
         };
@@ -122,12 +86,12 @@ public class CloudASRActivity extends AppCompatActivity
                 for(Socket s: clientSocketList){
                     String msg;
                     if(first){
-//                        msg = "Google\n";
                         msg = "Nuance\n";
                         first = false;
                     }
                     else{
-                        msg = "Nuance\n";
+                        msg = "Google\n";
+                        first = true;
                     }
                     new Thread(new ServerSendThread(s, msg)).start();
                 }
@@ -166,7 +130,7 @@ public class CloudASRActivity extends AppCompatActivity
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         int ipAddress = wifiInfo.getIpAddress();
         String ip = formatIpAddress(ipAddress);
-        resultTextView.setText(ip);
+        resultTextView.setText("IP: "+ip);
     }
 
     private String formatIpAddress(int ipAdress) {
@@ -251,12 +215,13 @@ public class CloudASRActivity extends AppCompatActivity
             }catch (Exception e){
                 e.printStackTrace();
             }
+            clientSocketList.clear();
             while(!serverSocket.isClosed()){
                 try {
                     Log.d("sss", "waiting for client");
                     Socket clientSocket = serverSocket.accept();
                     clientSocketList.add(clientSocket);
-                    Log.d("sss", clientSocket.getInetAddress().toString());
+                    Log.d("sss", "Connect to client: "+clientSocket.getInetAddress().toString());
                     new Thread(new ServerReceiveThread(clientSocket)).start();
                 } catch (IOException e) {
                     e.printStackTrace();
