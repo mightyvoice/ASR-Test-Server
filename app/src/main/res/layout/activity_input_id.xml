@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cloudRecognizer"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:id="@+id/inputSentenceIdLabel"
+        android:textSize="20dp"
+        android:text="Input The Beginning Sentence ID" />
+
+    <EditText
+        android:id="@+id/sentenceIdInputView"
+        android:scrollbars = "vertical"
+        android:hint="Input beginning sentence ID"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/confirmSentenceIdButton"
+        android:text="Confirm the Sentence ID"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>

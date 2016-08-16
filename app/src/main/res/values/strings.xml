@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">ASRTTStest</string>
-
+    <string name="app_name">AsrTest</string>
     <string name="Echo_Cancelation">Echo Cancelation</string>
     <string name="Elvis_Recognizer">Elvis Recognizer</string>
     <string name="Vocon_Recognizer">Vocon Recognizer</string>
