@@ -6,15 +6,21 @@
     android:layout_height="fill_parent"
     >
 
-    <Button
-        android:id="@+id/startAudioRecordButton"
-        android:text="Start Record"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+    <!--<Button-->
+        <!--android:id="@+id/startAudioRecordButton"-->
+        <!--android:text="Start Record"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/stopAudioRecordButton"-->
+        <!--android:text="Stop and Play"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
     <Button
-        android:id="@+id/stopAudioRecordButton"
-        android:text="Stop and Play"
+        android:id="@+id/doNextSentenceButton"
+        android:text="Get Sentence"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 

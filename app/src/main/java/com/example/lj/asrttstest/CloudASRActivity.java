@@ -1,6 +1,9 @@
 package com.example.lj.asrttstest;
 
+import android.accounts.NetworkErrorException;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -9,6 +12,8 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,33 +22,47 @@ import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lj.asrttstest.info.Global;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class CloudASRActivity extends AppCompatActivity
 {
+    private String server_url = "http://192.168.1.87:5000/groundTruth?id=";
+
     private TextView resultTextView;
 
     private MediaRecorder googleRecorder;
-    private File googleAudioFile;
+//    private File googleAudioFile;
     private File googleAudioDir;
     private boolean sdCardExist;
     private String tmpAudioName = "xxx";
-    private String msgFromClient = "";
 
+    private String currentIP;
     private final int serverPort = 13458;
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSocketList = new ArrayList<Socket>();
     Handler clientMessgageHandler;
+    boolean getGoogleAsrResult = false;
+    boolean getNuanceAsrResult = false;
     /**
      * Called when the activity is first created.
      */
@@ -56,31 +75,46 @@ public class CloudASRActivity extends AppCompatActivity
 
         // UI initialization
         resultTextView = (TextView)findViewById(R.id.cloudResultEditText);
-        final Button startRecordingButton = (Button) findViewById(R.id.startAudioRecordButton);
-        final Button stopRecordingButton = (Button) findViewById(R.id.stopAudioRecordButton);
-        final Button sendCommandButton = (Button) findViewById(R.id.sendCommandButton);
+        final Button nextSentenceButton = (Button) findViewById(R.id.doNextSentenceButton);
+        final Button startAsrButton = (Button) findViewById(R.id.sendCommandButton);
+        startAsrButton.setEnabled(false);
 
-        startRecordingButton.setEnabled(false);
-        stopRecordingButton.setEnabled(false);
-
-        getWIFILocalIpAdress(getApplicationContext());
+        currentIP = getWIFILocalIpAdress(getApplicationContext());
 
         clientMessgageHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+
+                //get current sentence for ASR
                 if(msg.what == 1){
-                    stopGoogleRecording();
-//                    playFile(googleAudioFile);
+                    updateTextView();
+                    startAsrButton.setEnabled(true);
+                    nextSentenceButton.setEnabled(false);
                 }
+
+                if(msg.what == 2){
+                    updateTextView();
+                    startAsrButton.setEnabled(false);
+                    nextSentenceButton.setEnabled(true);
+                }
+
             }
         };
 
-        new Thread(new ServerThread()).start();
-
-        sendCommandButton.setOnClickListener(new View.OnClickListener() {
+        Global.currentSentenceID--;
+        nextSentenceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Global.currentSentenceID++;
+                new Thread(new GetCurrentSentenceThread()).start();
+            }
+        });
+
+        startAsrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAsrButton.setEnabled(false);
                 initGoogleRecoder();
                 Boolean first = true;
                 for(Socket s: clientSocketList){
@@ -93,36 +127,43 @@ public class CloudASRActivity extends AppCompatActivity
                         msg = "Google\n";
                         first = true;
                     }
+                    getNuanceAsrResult = false;
+                    getGoogleAsrResult = false;
                     new Thread(new ServerSendThread(s, msg)).start();
+                    new Thread(new WaitAsrFinishThread()).start();
                 }
             }
         });
 
-        startRecordingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initGoogleRecoder();
-                startRecordingButton.setEnabled(false);
-            }
-        });
+        new Thread(new ServerThread()).start();
+    }
 
-        stopRecordingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopGoogleRecording();
-                if (googleAudioFile != null && googleAudioFile.exists()) {
-                    playFile(googleAudioFile);
-                }
-                else{
-                    Log.d("sss", "No audio file");
-                }
-                startRecordingButton.setEnabled(true);
-            }
-        });
+    private String[] getAsrResult(String input){
+        JSONObject cur;
+        String[] ans = new String[2];
+        ans[0] = ans[1] = "";
+        try {
+            cur = new JSONObject(input);
+            ans[0] = cur.optString("type");
+            ans[1] = cur.optString("result");
+        }catch (JSONException e){
+            e.printStackTrace();
+            return ans;
+        }
+        return ans;
+    }
+
+    private void uploadAudioFileAndInfo(){
 
     }
 
-    private void getWIFILocalIpAdress(Context mContext) {
+    private void updateTextView(){
+        resultTextView.setText("Phone IP: " + currentIP + "\n" +
+                               "Sentence ID: " + String.valueOf(Global.currentSentenceID) +"\n"+
+                               "Sentence for ASR: \n"+ Global.currentSentenceForASR);
+    }
+
+    private String getWIFILocalIpAdress(Context mContext) {
         WifiManager wifiManager = (WifiManager)mContext.getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
@@ -130,7 +171,7 @@ public class CloudASRActivity extends AppCompatActivity
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         int ipAddress = wifiInfo.getIpAddress();
         String ip = formatIpAddress(ipAddress);
-        resultTextView.setText("IP: "+ip);
+        return ip;
     }
 
     private String formatIpAddress(int ipAdress) {
@@ -149,8 +190,8 @@ public class CloudASRActivity extends AppCompatActivity
             googleAudioDir = Environment.getExternalStorageDirectory();
         }
         try {
-            googleAudioFile = File.createTempFile(tmpAudioName+String.valueOf(System.currentTimeMillis()), ".amr",
-                    googleAudioDir);
+            tmpAudioName = Global.currentUserID+"_"+String.valueOf(Global.currentSentenceID);
+            Global.currentAudioFile = File.createTempFile(tmpAudioName, ".amr", googleAudioDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,7 +199,7 @@ public class CloudASRActivity extends AppCompatActivity
         googleRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         googleRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
         googleRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        googleRecorder.setOutputFile(googleAudioFile.getAbsolutePath());
+        googleRecorder.setOutputFile(Global.currentAudioFile.getAbsolutePath());
         try {
             googleRecorder.prepare();
             googleRecorder.start();
@@ -174,7 +215,7 @@ public class CloudASRActivity extends AppCompatActivity
         googleRecorder.release();
     }
 
-    private void playFile(File f)
+    private void playAudioFile(File f)
     {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -234,6 +275,7 @@ public class CloudASRActivity extends AppCompatActivity
 
         private Socket clientSocket;
         private BufferedReader input;
+        private String messageFromClient;
 
         public ServerReceiveThread(Socket clientSocket){
             this.clientSocket = clientSocket;
@@ -248,16 +290,12 @@ public class CloudASRActivity extends AppCompatActivity
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    msgFromClient = input.readLine();
+                    messageFromClient = input.readLine();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("sss", "Msg from client: "+msgFromClient);
-                if(msgFromClient.equals("End")){
-                    Message msg = new Message();
-                    msg.what = 1;
-                    clientMessgageHandler.sendMessage(msg);
-                }
+                Log.d("sss", "Msg from client: " + messageFromClient);
+                new Thread(new ProcessMessageFromClientThread(messageFromClient)).start();
             }
         }
     }
@@ -288,4 +326,114 @@ public class CloudASRActivity extends AppCompatActivity
             }
         }
     }
+
+    private String parseCurrentSentence(String input){
+        String result = "";
+        try{
+            JSONObject cur = new JSONObject(input);
+            cur = cur.optJSONObject("result");
+            result = cur.optString("ground_truth");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private class GetCurrentSentenceThread implements Runnable{
+        @Override
+        public void run() {
+            HttpURLConnection conn = null;
+            try {
+                String cur_url = server_url + String.valueOf(Global.currentSentenceID);
+                URL mURL = new URL(cur_url);
+                conn = (HttpURLConnection) mURL.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 200) {
+                    InputStream is = conn.getInputStream();
+                    String tmp = getStringFromInputStream(is);
+                    Log.d("sentence: ", tmp);
+                    Global.currentSentenceForASR = parseCurrentSentence(tmp);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    clientMessgageHandler.sendMessage(msg);
+                    Log.d("sss", Global.currentSentenceForASR);
+                } else {
+                    throw new NetworkErrorException("response status is "+responseCode);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+            }
+        }
+    }
+
+    private static String getStringFromInputStream(InputStream is)
+            throws IOException {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = -1;
+        while ((len = is.read(buffer)) != -1) {
+            os.write(buffer, 0, len);
+        }
+        is.close();
+        String state = os.toString();
+        os.close();
+        return state;
+    }
+
+    private class ProcessMessageFromClientThread implements Runnable{
+
+        private String client_msg;
+
+        public ProcessMessageFromClientThread(String _msg){
+            client_msg = _msg;
+        }
+
+        @Override
+        public void run() {
+            String[] results = getAsrResult(client_msg);
+            Log.d("sss", "From client: "+results[0]+" "+results[1]);
+            if(results[0].equals("end")){
+                stopGoogleRecording();
+            }
+            else if(results[0].equals("google")){
+                Global.googleAsrResult = results[1];
+                getGoogleAsrResult = true;
+            }
+            else{
+                Global.nuanceAsrResult = results[1];
+                getNuanceAsrResult = true;
+            }
+        }
+    }
+
+    private class WaitAsrFinishThread implements Runnable{
+        @Override
+        public void run() {
+            while(true){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(getGoogleAsrResult && getNuanceAsrResult){
+                    getGoogleAsrResult = false;
+                    getNuanceAsrResult = false;
+                    Intent localIntent = new Intent(CloudASRActivity.this, ConfirmAndUploadActivity.class);
+                    CloudASRActivity.this.startActivity(localIntent);
+                    Message msg = new Message();
+                    msg.what = 2;
+                    clientMessgageHandler.sendMessage(msg);
+                }
+            }
+        }
+    }
+
+
 }

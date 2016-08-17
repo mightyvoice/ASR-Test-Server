@@ -1,5 +1,7 @@
 package com.example.lj.asrttstest;
 
+import android.accounts.NetworkErrorException;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -10,6 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.lj.asrttstest.info.Global;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class InputIdActivity extends AppCompatActivity {
 
@@ -31,11 +39,15 @@ public class InputIdActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Global.beginingSentenceID = Integer.parseInt(inputIdView.getText().toString());
-                    Log.d("sss", "input is: " + String.valueOf(Global.beginingSentenceID));
+                    Global.currentSentenceID = Global.beginingSentenceID;
+                    Intent localIntent = new Intent(InputIdActivity.this, CloudASRActivity.class);
+                    InputIdActivity.this.startActivity(localIntent);
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_LONG);
                 }
             }
         });
     }
+
+
 }

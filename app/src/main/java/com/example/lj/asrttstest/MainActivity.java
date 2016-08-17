@@ -32,14 +32,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
 
 public class MainActivity extends Activity {
-
-    private static String server_url = "https://www.baidu.com";
 
     private Spinner nameSpinner;
     private ArrayAdapter nameSpinnerAdapter;
@@ -49,12 +49,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Global.allUserNameList.add("CHINA");
-        Global.allUserNameList.add("JAPAN");
-        Global.allUserNameList.add("USA");
-        Global.allUserNameList.add("Germany");
-        Global.allUserNameList.add("France");
-
         nameSpinner = (Spinner) findViewById(R.id.userNameSpinner);
         nameSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Global.allUserNameList);
         nameSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -63,6 +57,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Global.currentUserName = Global.allUserNameList.get(position);
+                Global.currentUserID = Global.allUserNameToIdTable.get(Global.currentUserName);
                 Toast.makeText(getApplicationContext(), "Chosen: "+Global.currentUserName, Toast.LENGTH_LONG);
             }
 
@@ -72,7 +67,9 @@ public class MainActivity extends Activity {
             }
         });
 
-//        getAllUserNamesFromServer();
+//        new Thread(new InitServerSocketThread()).start();
+
+        new Thread(new getUserNameThread()).start();
 
         final Button confirmButton = (Button)findViewById(R.id.userNameConfirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -83,18 +80,30 @@ public class MainActivity extends Activity {
             }
         });
 
-//        final Button cloudRecognizerButton = (Button) findViewById(R.id.cloudRecognizerButton);
-//        cloudRecognizerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent localIntent = new Intent(MainActivity.this, CloudASRActivity.class);
-//                MainActivity.this.startActivity(localIntent);
-//            }
-//        });
     }
 
-    private void getAllUserNamesFromServer(){
-        new Thread(new getUserNameThread()).start();
+
+    private void parseAllUserNames(String input){
+        Global.allUserNameList.clear();
+        Global.allUserNameToIdTable.clear();
+        Global.allUserNameToIdTable.clear();
+        try {
+            JSONObject cur = new JSONObject(input);
+//            Log.d("sss", cur.toString(4));
+            JSONArray items = cur.optJSONArray("result");
+            for(int i = 0; i < items.length(); i++){
+                JSONObject tmp = (JSONObject) items.get(i);
+                String userName = tmp.optString("name");
+                String userID = tmp.optString("_id");
+                Global.allUserNameList.add(userName);
+                Global.allUserNameToIdTable.put(userName, userID);
+                Global.allUserIdToNameTable.put(userID, userName);
+            }
+            nameSpinnerAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+//            Log.d("sss", input);
+            e.printStackTrace();
+        }
     }
 
     private class getUserNameThread implements Runnable{
@@ -102,19 +111,17 @@ public class MainActivity extends Activity {
         public void run() {
             HttpURLConnection conn = null;
             try {
-                URL mURL = new URL(server_url);
+                URL mURL = new URL(Global.Get_All_User_Names_URL);
                 conn = (HttpURLConnection) mURL.openConnection();
-
                 conn.setRequestMethod("GET");
                 conn.setReadTimeout(5000);
                 conn.setConnectTimeout(10000);
-
                 int responseCode = conn.getResponseCode();
                 if (responseCode == 200) {
-
                     InputStream is = conn.getInputStream();
                     String response = getStringFromInputStream(is);
-                    Log.d("sss", response);
+                    parseAllUserNames(response);
+//                    Log.d("sss", response);
                 } else {
                     throw new NetworkErrorException("response status is "+responseCode);
                 }
@@ -141,5 +148,16 @@ public class MainActivity extends Activity {
         String state = os.toString();
         os.close();
         return state;
+    }
+
+    private class InitServerSocketThread implements Runnable{
+        @Override
+        public void run() {
+            try {
+                Global.serverSocket = new ServerSocket(Global.SERVER_PHONE_PORT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
