@@ -3,25 +3,22 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_gravity="center|center_horizontal|center_vertical"
-            android:layout_height="fill_parent" >
-
-            <TextView
-                android:id="@+id/selectUserNameLabel"
-                android:text="Please Select Your Name"
-                android:layout_height="40dp"
-                android:layout_width="match_parent"
-                android:textSize="20dp" />
+            android:layout_height="fill_parent"
+            android:weightSum="1">
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/userNameSpinner"
-                android:spinnerMode="dialog" />
+                android:spinnerMode="dialog"
+                android:layout_weight="0.13" />
 
             <Button
                 android:id="@+id/userNameConfirmButton"
                 android:text="Confirm"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:height="80dp"
+                android:textSize="40dp" />
 
         </LinearLayout>

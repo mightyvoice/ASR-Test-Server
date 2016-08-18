@@ -49,16 +49,25 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Button confirmButton = (Button)findViewById(R.id.userNameConfirmButton);
+        confirmButton.setEnabled(false);
+
         nameSpinner = (Spinner) findViewById(R.id.userNameSpinner);
-        nameSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Global.allUserNameList);
-        nameSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nameSpinnerAdapter = new ArrayAdapter<String>(this, R.layout.user_name_spinner, Global.allUserNameList);
+        nameSpinnerAdapter.setDropDownViewResource(R.layout.user_name_spinner);
         nameSpinner.setAdapter(nameSpinnerAdapter);
         nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Global.currentUserName = Global.allUserNameList.get(position);
                 Global.currentUserID = Global.allUserNameToIdTable.get(Global.currentUserName);
-                Toast.makeText(getApplicationContext(), "Chosen: "+Global.currentUserName, Toast.LENGTH_LONG);
+                Log.d("sss", "Chosen: "+Global.currentUserName+"    "+Global.currentUserID);
+                if(position > 0){
+                    confirmButton.setEnabled(true);
+                }
+                else{
+                    confirmButton.setEnabled(false);
+                }
             }
 
             @Override
@@ -71,7 +80,6 @@ public class MainActivity extends Activity {
 
         new Thread(new getUserNameThread()).start();
 
-        final Button confirmButton = (Button)findViewById(R.id.userNameConfirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +94,8 @@ public class MainActivity extends Activity {
     private void parseAllUserNames(String input){
         Global.allUserNameList.clear();
         Global.allUserNameToIdTable.clear();
-        Global.allUserNameToIdTable.clear();
+        Global.allUserIdToNameTable.clear();
+        Global.allUserNameList.add("Please select your name");
         try {
             JSONObject cur = new JSONObject(input);
 //            Log.d("sss", cur.toString(4));

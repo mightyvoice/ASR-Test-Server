@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class Global {
     public static ArrayList<String> ambiguityList = new ArrayList<String>();
     public static Integer ambiguityListChosenID = -1;
+
     public static String currentUserID = "-1";
     public static String currentUserName = "";
     public static Integer currentSentenceID = -1;
@@ -19,9 +20,13 @@ public class Global {
     public static ArrayList<String> allUserNameList = new ArrayList<String>();
     public static HashMap<String, String> allUserIdToNameTable = new HashMap<String, String>();
     public static HashMap<String, String> allUserNameToIdTable = new HashMap<String, String>();
+
     public static File currentAudioFile;
+
     public static String googleAsrResult;
     public static String nuanceAsrResult;
+
+
     public static final int SERVER_PHONE_PORT = 13458;
     public static ServerSocket serverSocket;
     public static String HOST = "192.168.1.87";

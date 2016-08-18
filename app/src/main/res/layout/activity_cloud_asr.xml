@@ -22,20 +22,24 @@
         android:id="@+id/doNextSentenceButton"
         android:text="Get Sentence"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:height="80dp"
+        android:textSize="40dp" />
 
     <Button
         android:id="@+id/sendCommandButton"
         android:text="Start ASR"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:height="80dp"
+        android:textSize="40dp" />
 
     <TextView
         android:id="@+id/cloudResultEditText"
         android:scrollbars = "vertical"
         android:hint="ASR result show here ..."
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:textSize="20dp"/>
+        android:layout_height="wrap_content"
+        android:textSize="30dp"/>
 
 </LinearLayout>

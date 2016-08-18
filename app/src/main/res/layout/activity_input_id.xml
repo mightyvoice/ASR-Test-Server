@@ -10,8 +10,10 @@
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:id="@+id/inputSentenceIdLabel"
-        android:textSize="20dp"
-        android:text="Input The Beginning Sentence ID" />
+        android:textSize="25dp"
+        android:text="Input The Beginning Sentence ID"
+        android:gravity="center_vertical|center"
+        android:textColor="@android:color/holo_red_dark" />
 
     <EditText
         android:id="@+id/sentenceIdInputView"
@@ -25,7 +27,9 @@
         android:id="@+id/confirmSentenceIdButton"
         android:text="Confirm the Sentence ID"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:height="60dp"
+        android:textSize="25dp" />
 
 
 

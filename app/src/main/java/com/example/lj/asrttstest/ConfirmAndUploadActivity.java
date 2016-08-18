@@ -94,7 +94,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
     public void getUploadResult(){
         JSONObject tmp = new JSONObject();
         try {
-            tmp.put("user_id", String.valueOf(Global.currentUserID));
+            tmp.put("user_id", Global.currentUserID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,18 +104,18 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         try {
-            tmp.put("asr_google", String.valueOf(Global.googleAsrResult));
+            tmp.put("asr_google", Global.googleAsrResult);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            tmp.put("asr_nuance", String.valueOf(Global.nuanceAsrResult));
+            tmp.put("asr_nuance", Global.nuanceAsrResult);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         uploadResultJSON = tmp.toString();
         try {
-            Log.d("sss", tmp.toString(4));
+            Log.d("sss", "uploaded result: "+tmp.toString(4));
         } catch (JSONException e) {
             e.printStackTrace();
         }

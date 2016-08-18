@@ -90,12 +90,13 @@ public class CloudASRActivity extends AppCompatActivity
                 if(msg.what == 1){
                     updateTextView();
                     startAsrButton.setEnabled(true);
-                    nextSentenceButton.setEnabled(false);
+//                    nextSentenceButton.setEnabled(false);
                 }
 
+                //two ASR finished
                 if(msg.what == 2){
                     updateTextView();
-                    startAsrButton.setEnabled(false);
+                    startAsrButton.setEnabled(true);
                     nextSentenceButton.setEnabled(true);
                 }
 
@@ -115,6 +116,7 @@ public class CloudASRActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startAsrButton.setEnabled(false);
+                nextSentenceButton.setEnabled(false);
                 initGoogleRecoder();
                 Boolean first = true;
                 for(Socket s: clientSocketList){
