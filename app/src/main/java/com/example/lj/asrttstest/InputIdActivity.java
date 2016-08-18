@@ -13,12 +13,6 @@ import android.widget.Toast;
 
 import com.example.lj.asrttstest.info.Global;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class InputIdActivity extends AppCompatActivity {
 
     private EditText inputIdView;
