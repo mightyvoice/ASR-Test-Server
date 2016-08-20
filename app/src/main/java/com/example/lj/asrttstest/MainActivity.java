@@ -126,6 +126,7 @@ public class MainActivity extends Activity {
                 conn.setReadTimeout(5000);
                 conn.setConnectTimeout(10000);
                 int responseCode = conn.getResponseCode();
+//                Log.d("sss", "Code: "+String.valueOf(responseCode));
                 if (responseCode == 200) {
                     InputStream is = conn.getInputStream();
                     String response = getStringFromInputStream(is);

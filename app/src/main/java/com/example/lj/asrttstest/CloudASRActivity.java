@@ -346,8 +346,7 @@ public class CloudASRActivity extends AppCompatActivity
         public void run() {
             HttpURLConnection conn = null;
             try {
-                String cur_url = server_url + String.valueOf(Global.currentSentenceID);
-                URL mURL = new URL(cur_url);
+                URL mURL = new URL(Global.Get_Cur_Sentence_URL+String.valueOf(Global.currentSentenceID));
                 conn = (HttpURLConnection) mURL.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setReadTimeout(5000);
