@@ -84,7 +84,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getUploadResult();
-                new Thread(new UploadAsrResultThread(Global.Get_Cur_Sentence_URL)).start();
+                new Thread(new UploadAsrResultThread(Global.Upload_ASR_Result_URL)).start();
             }
         });
 
@@ -174,6 +174,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
                 OutputStream out = conn.getOutputStream();
                 out.write(uploadResultJSON.getBytes());
                 int responseCode = conn.getResponseCode();
+                Log.d("sss", "upload ASR result response: "+conn.getResponseMessage());
                 if (responseCode == 200) {
                     InputStream is = conn.getInputStream();
                 } else {
@@ -222,7 +223,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
                             .addFormDataPart("name", "fileData")
                             .build();
                     String response = new ApiCall().POST(client, httpUrl, body);
-                    Log.d("sss", "response: "+response);
+                    Log.d("sss", "upload file response: "+response);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
