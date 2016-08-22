@@ -155,10 +155,6 @@ public class CloudASRActivity extends AppCompatActivity
         return ans;
     }
 
-    private void uploadAudioFileAndInfo(){
-
-    }
-
     private void updateTextView(){
         resultTextView.setText("Phone IP: " + currentIP + "\n" +
                                "Sentence ID: " + String.valueOf(Global.currentSentenceID) +"\n"+
@@ -193,7 +189,9 @@ public class CloudASRActivity extends AppCompatActivity
         }
         try {
             tmpAudioName = Global.currentUserID+"_"+String.valueOf(Global.currentSentenceID);
+            Log.d("sss", "File name: " + tmpAudioName);
             Global.currentAudioFile = File.createTempFile(tmpAudioName, ".amr", googleAudioDir);
+            Log.d("sss", "File path: " + Global.currentAudioFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -426,6 +424,7 @@ public class CloudASRActivity extends AppCompatActivity
                 if(getGoogleAsrResult && getNuanceAsrResult){
                     getGoogleAsrResult = false;
                     getNuanceAsrResult = false;
+                    Global.uploadSuccessCount = 0;
                     Intent localIntent = new Intent(CloudASRActivity.this, ConfirmAndUploadActivity.class);
                     CloudASRActivity.this.startActivity(localIntent);
                     Message msg = new Message();
@@ -435,6 +434,5 @@ public class CloudASRActivity extends AppCompatActivity
             }
         }
     }
-
 
 }

@@ -39,4 +39,6 @@ public class Global {
     public static String Upload_ASR_Result_URL = "http://"+HOST+":5000/uploadData";
     public static HashMap<String, Socket> allClientSocketList = new HashMap<String, Socket>();
     public static Handler allMessageHandler = new Handler();
+    public static int uploadSuccessCount = 0;
+
 }

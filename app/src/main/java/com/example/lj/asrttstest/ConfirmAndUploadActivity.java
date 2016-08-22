@@ -42,6 +42,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
 
     private String uploadResultJSON = "";
     private Handler messageHandler;
+    private int uploadSuccessCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +177,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
                 int responseCode = conn.getResponseCode();
                 Log.d("sss", "upload ASR result response: "+conn.getResponseMessage());
                 if (responseCode == 200) {
+                    Global.uploadSuccessCount++;
                     InputStream is = conn.getInputStream();
                 } else {
                     throw new NetworkErrorException("response status is " + responseCode);
@@ -198,6 +200,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
         String cur_url;
         public UploadAudioFileThread(String _url){
             cur_url = _url;
+            Log.d("sss", "Path: "+Global.currentAudioFile.getPath());
         }
 
         @Override
@@ -233,6 +236,7 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
             }
         }
     }
+
     private class ApiCall {
 
         //GET network request
@@ -251,6 +255,9 @@ public class ConfirmAndUploadActivity extends AppCompatActivity {
                     .post(body)
                     .build();
             Response response = client.newCall(request).execute();
+            if(response.code() == 200){
+                Global.uploadSuccessCount++;
+            }
             return response.body().string();
         }
     }
