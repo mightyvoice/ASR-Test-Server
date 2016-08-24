@@ -109,6 +109,7 @@ public class CloudASRActivity extends AppCompatActivity
             public void onClick(View v) {
                 Global.currentSentenceID++;
                 new Thread(new GetCurrentSentenceThread()).start();
+//                nextSentenceButton.setEnabled(false);
             }
         });
 
@@ -179,7 +180,6 @@ public class CloudASRActivity extends AppCompatActivity
                 ((ipAdress >> 16 ) & 0xFF) + "." +
                 ( ipAdress >> 24 & 0xFF) ;
     }
-
 
     private void initGoogleRecoder(){
         sdCardExist = Environment.getExternalStorageState().equals(
