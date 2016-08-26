@@ -1,0 +1,200 @@
+5
+bring me to the nearest gas station with diesel fuel
+17
+directions to 2870 zanker road san jose california
+20
+find a library that is located two miles or less from my current position
+27
+give me directions to the nearest car wash
+67
+take me to the closest wells fargo bank with an atm
+73
+are there shoes shops within 10 blocks of where i am right now
+85
+find me a convenience store within 10 blocks
+109
+i need to find a gas station close to me
+111
+whats the best rated barbershop near my home
+126
+look for food trucks with four star reviews
+142
+are there any faster options
+144
+calculate an alternate route
+149
+can you find me a route with less traffic
+168
+take me another way around
+170
+which route is the quickest
+172
+can you change the search to the current area of the map
+176
+can you update the results to this specific area
+183
+find routes available within this area
+186
+i would like to view this area instead
+190
+open a new search
+238
+can you find me nearest street parking
+243
+im looking for street parking within a block of my apartment
+258
+find me a place to park between 11 am to 7 pm
+286
+find me all day parking that will be less than 10 dollars
+318
+find the cheapest parking within six blocks of the courthouse
+331
+bring me to my car
+332
+can you show me where i parked
+342
+i need directions back to the car please
+351
+take me to my parking spot
+355
+where is my car
+356
+add an hour to parking space
+361
+can you extend my parking reservation by an hour
+366
+extra 2 hours on parking space please
+372
+reserve another hour for parking space
+374
+change parking reservation to one hour
+382
+can i see the parking receipt
+386
+find me the receipt for the parking spot
+388
+get me my parking reciept when i arrive 
+392
+let me look at the parking receipt
+397
+show current parking receipt
+418
+songs by lady gaga
+421
+find me the song hello by adele
+449
+id like to listen to the album bad by michael jackson
+465
+could you turn on some old jazz
+479
+lets play some hip hop music
+485
+christmas playlist
+520
+play song barbie girl by aqua on spotify
+525
+i want to shuffle my playlist
+542
+add more of this genre to a playlist
+545
+are there any other songs like this
+551
+find me something similar to listen to
+553
+find songs in same style
+557
+keep playing this kind of music
+561
+more music like the last one  
+572
+display track info
+577
+get me the details of this song
+578
+i want to know more about this song
+586
+what is the name of this album
+587
+what is the name of this band
+597
+what is playing right now
+602
+send a message to 2023575900
+608
+i need to text amanda
+620
+send christina a message
+646
+sms good morning to william
+651
+send to steven hey i am right there
+668
+send thank you to mom
+675
+say happy new year to dads mobile number 
+679
+write a text and send to kimberley work
+682
+reply my message
+686
+reply to matthew have a nice day
+699
+reply to edwards message i am looking forward to it
+705
+reply to nathan it isnt too late to change
+726
+reply to this message see you tomorrow
+735
+send a reply saying call me when you get home
+744
+bring up my recent messages with michelle
+750
+check for unread texts from annie
+757
+find all messages from allan
+776
+i want to read texts from paul
+785
+messages from barbara
+800
+read all messages from tony
+801
+call 4643421618
+857
+i need to call my mother
+883
+i want to speak with john
+872
+make a call to freds work phone
+881
+place a call to jacob mobile
+902
+call the number of my destination 
+905
+call the place i am heading to
+909
+make a call to the destination 
+913
+accept this call
+915
+answer the phone
+921
+pick up incoming call
+927
+call denied
+937
+do not answer this call
+950
+reject the incoming call
+959
+end the call please
+965
+hang up for me
+976
+hang up the phone
+983
+call the number again
+987
+dial that last phone number again
+991
+redial the last call

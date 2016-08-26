@@ -15,9 +15,10 @@ public class Global {
     public static ArrayList<String> ambiguityList = new ArrayList<String>();
     public static Integer ambiguityListChosenID = -1;
 
-    public static String currentUserID = "-1";
+    public static String currentUserID = "999";
     public static String currentUserName = "";
     public static Integer currentSentenceID = -1;
+    public static String currentSentenceIdStr = "";
     public static String currentSentenceForASR = "";
     public static Integer beginingSentenceID = -1;
     public static ArrayList<String> allUserNameList = new ArrayList<String>();

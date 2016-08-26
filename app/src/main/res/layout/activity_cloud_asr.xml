@@ -17,10 +17,17 @@
         <!--android:text="Stop and Play"-->
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="wrap_content"/>-->
+    <Button
+        android:id="@+id/getPreSentenceButton"
+        android:text="Pre Sentence"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:height="80dp"
+        android:textSize="40dp" />
 
     <Button
-        android:id="@+id/doNextSentenceButton"
-        android:text="Get Sentence"
+        android:id="@+id/getNextSentenceButton"
+        android:text="Next Sentence"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:height="80dp"
