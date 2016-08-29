@@ -28,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.StringTokenizer;
 
 import android.widget.TextView;
 import android.widget.Toast;
@@ -161,8 +163,24 @@ public class CloudASRActivity extends AppCompatActivity
         initAsrResultFile();
         initAsrAudioDir();
 
+        Log.d("sss", getCurrentTimeStr());
         new Thread(new ServerThread()).start();
 
+    }
+
+    private String getCurrentTimeStr(){
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        String res = String.valueOf(month)+"_"+
+                String.valueOf(day)+"_"+
+                String.valueOf(hour)+"_"+
+                String.valueOf(minute)+"_"+
+                String.valueOf(second);
+        return res;
     }
 
     private void initAsrResultFile(){
@@ -280,7 +298,7 @@ public class CloudASRActivity extends AppCompatActivity
 
     private void initAudioRecoder(){
         try {
-            tmpAudioName = Global.currentUserID+"_"+Global.currentSentenceIdStr+"_";
+            tmpAudioName = Global.currentUserID+"_"+Global.currentSentenceIdStr+"_"+getCurrentTimeStr()+"_";
             Log.d("sss", "File name: " + tmpAudioName);
             Global.currentAudioFile = File.createTempFile(tmpAudioName, ".amr", asrAudioDir);
             Log.d("sss", "File path: " + Global.currentAudioFile.getPath());
@@ -455,7 +473,8 @@ public class CloudASRActivity extends AppCompatActivity
                     Global.uploadSuccessCount = 0;
 //                    Intent localIntent = new Intent(CloudASRActivity.this, ConfirmAndUploadActivity.class);
 //                    CloudASRActivity.this.startActivity(localIntent);
-                    writeAsrResult(Global.currentSentenceIdStr+'\n');
+                    Log.d("sss", getCurrentTimeStr());
+                    writeAsrResult(Global.currentUserID+"_"+Global.currentSentenceIdStr+"_"+getCurrentTimeStr()+'\n');
                     writeAsrResult("google:"+Global.googleAsrResult+'\n');
                     writeAsrResult("nuance:"+Global.nuanceAsrResult+'\n');
                     Message msg = new Message();
